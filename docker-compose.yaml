@@ -1,4 +1,21 @@
 version: "3"
 services:
   redis-master:
-  redis-slave: 
+    # container_name: redis-master
+    image: redis:5.0
+  redis-slave:
+    # container_name: redis-slave
+    image: redis:5.0
+    command: redis-server --slaveof redis-master 6379
+    depends_on:
+      - redis-master
+  redis-sentinel:
+    # container_name: sentinel
+    build: .
+    image: redis-sentinel:0.0.0
+    environment:
+      - MASTER_NAME=mymaster
+      - QUORUM=1
+      - MASTER=redis-master
+    depends_on:
+      - redis-master

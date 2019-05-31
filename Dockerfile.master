@@ -1,0 +1,3 @@
+FROM redis:5.0
+COPY redis-master.conf /etc/redis/redis-master.conf
+CMD ["redis-server", "/etc/redis/redis-master.conf"]
